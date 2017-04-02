@@ -29,17 +29,11 @@ all.names[ 7 ]
 r00001 <-
     get.tbl( tbl.name = "R00001", all.tables =  all.xlsx.tables )
 
-names( r00001 )
-
 d00078 <-
     get.tbl( tbl.name = "D00078", all.tables =  all.xlsx.tables )
 
-names( d00078 )
-
 d00159 <-
     get.tbl( tbl.name = "D00159", all.tables =  all.xlsx.tables )
-
-names( d00159 )
 
 focus <-
     merge(
@@ -76,7 +70,17 @@ invlogit( coef( lm.1 )[ 1 ] + 12 * coef( lm.1 )[ 2 ] )
 focus$C_SOZDEM_EINKOMMEN
 
 lm.1$coefficients
-ggplot( focus ) +
+
+ggplot( focus[ !is.na( focus$C_SOZDEM_EINZELKIND ) & !is.na( focus$C_SOZDEM_EINKOMMEN ), ] ) +
     geom_boxplot( aes( C_SOZDEM_EINZELKIND, C_SOZDEM_EINKOMMEN ) )
 
-plot( Effect( "C_SOZDEM_EINKOMMEN", lm.1 ))
+c.i <- confint( lm.1 )
+invlogit( c.i )
+
+plot( Effect( "C_SOZDEM_EINKOMMEN", lm.1 ) )
+
+
+t.t.1 <-
+    t.test( focus$C_SOZDEM_EINKOMMEN ~ focus$C_SOZDEM_EINZELKIND )
+
+t.t.1$conf.int
