@@ -5,48 +5,48 @@ library( ggplot2 )
 library( arm )
 library( effects )
 
-a.t <-
-    read.all.xlsx.tables( "~/LIFE/R/WiebkeKeller/data/" )
+all.xlsx.tables <-
+    read.all.xlsx.tables( directory =  "~/LIFE/R/WiebkeKeller/data/" )
 
-a.n <-
-    all.xlsx.tables.names( all.tables = a.t )
+all.names <-
+    all.xlsx.tables.names( all.tables = all.xlsx.tables )
 
-a.c.n <-
-    all.xlsx.tables.row.names( all.tables = a.t )
+all.col.names <-
+    all.xlsx.tables.row.names( all.tables = all.xlsx.tables )
 
-a.c.n
+all.col.names
 
-a.c.n[ 1 ]
-a.n[ 1 ]
+all.col.names[ 1 ]
+all.names[ 1 ]
 
-a.c.n[ 6 ]
-a.n[ 6 ]
+all.col.names[ 6 ]
+all.names[ 6 ]
 
-a.c.n[ 7 ]
-a.n[ 7 ]
+all.col.names[ 7 ]
+all.names[ 7 ]
 
 
 r00001 <-
-    get.tbl( tbl.name = "R00001", all.tables =  a.t )
+    get.tbl( tbl.name = "R00001", all.tables =  all.xlsx.tables )
 
 names( r00001 )
 
 d00078 <-
-    get.tbl( tbl.name = "D00078", all.tables =  a.t )
+    get.tbl( tbl.name = "D00078", all.tables =  all.xlsx.tables )
 
 names( d00078 )
 
 d00159 <-
-    get.tbl( tbl.name = "D00159", all.tables =  a.t )
+    get.tbl( tbl.name = "D00159", all.tables =  all.xlsx.tables )
 
 names( d00159 )
 
 focus <-
-    merge( 
-        x = get.tbl( tbl.name = "D00159", all.tables = a.t ),
-        merge( 
-            x = get.tbl( tbl.name = "R00001", all.tables =  a.t ),
-            y = get.tbl( tbl.name = "D00078", all.tables =  a.t ),
+    merge(
+        x = get.tbl( tbl.name = "D00159", all.tables = all.xlsx.tables ),
+        merge(
+            x = get.tbl( tbl.name = "R00001", all.tables =  all.xlsx.tables ),
+            y = get.tbl( tbl.name = "D00078", all.tables =  all.xlsx.tables ),
             by.x = c( "TEILNEHMER_SIC" ),
             by.y = c( "C_SOZDEM_SIC" ),
             all = F ),
@@ -59,10 +59,10 @@ ggplot( focus ) +
     geom_boxplot( aes( as.factor( C_SOZDEM_WOHNGEG ), WINKLER_SCORE_FAM ) )
 
 focus$C_SOZDEM_EINZELKIND <-
-    as.factor( focus$C_SOZDEM_EINZELKIND ) 
+    as.factor( focus$C_SOZDEM_EINZELKIND )
 
-lm.1 <- glm( 
-    data = focus, 
+lm.1 <- glm(
+    data = focus,
     formula =  C_SOZDEM_EINZELKIND ~ C_SOZDEM_EINKOMMEN,
     family = "binomial",
     na.action = na.omit )
