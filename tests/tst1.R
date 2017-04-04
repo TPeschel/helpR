@@ -6,7 +6,7 @@ library( arm )
 library( effects )
 
 all.xlsx.tables <-
-    read.all.xlsx.tables( directory =  "~/LIFE/R/WiebkeKeller/data/" )
+    read.all.xlsx.tables( directory =  "~/LIFE/github-tpeschel/R/WiebkeKeller/data/" )
 
 all.names <-
     all.xlsx.tables.names( all.tables = all.xlsx.tables )
