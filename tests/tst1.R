@@ -26,15 +26,6 @@ all.col.names[ 7 ]
 all.names[ 7 ]
 
 
-r00001 <-
-    get.tbl( tbl.name = "R00001", all.tables =  all.xlsx.tables )
-
-d00078 <-
-    get.tbl( tbl.name = "D00078", all.tables =  all.xlsx.tables )
-
-d00159 <-
-    get.tbl( tbl.name = "D00159", all.tables =  all.xlsx.tables )
-
 focus <-
     merge(
         x = get.tbl( tbl.name = "D00159", all.tables = all.xlsx.tables ),
@@ -55,9 +46,14 @@ ggplot( focus ) +
 focus$C_SOZDEM_EINZELKIND <-
     as.factor( focus$C_SOZDEM_EINZELKIND )
 
+focus$reli <- factor( focus$C_SOZDEM_KE_RELIGION, c( 1 : 6 ), c( "konfessionslos", "katholisch", "evangelisch", "christlich", "islamisch", "anders" ) )
+
+str(focus$reli)
+
+
 lm.1 <- glm(
     data = focus,
-    formula =  C_SOZDEM_EINZELKIND ~ C_SOZDEM_EINKOMMEN,
+    formula =  C_SOZDEM_EINZELKIND ~ reli * C_SOZDEM_EIGZIMM,
     family = "binomial",
     na.action = na.omit )
 
@@ -65,22 +61,14 @@ summary( lm.1 )
 
 invlogit( coef( lm.1 )[ 1 ] )
 invlogit( coef( lm.1 )[ 1 ] + coef( lm.1 )[ 2 ] )
-invlogit( coef( lm.1 )[ 1 ] + 12 * coef( lm.1 )[ 2 ] )
-
-focus$C_SOZDEM_EINKOMMEN
+invlogit( coef( lm.1 )[ 1 ] + 6 * coef( lm.1 )[ 2 ] )
 
 lm.1$coefficients
 
-ggplot( focus[ !is.na( focus$C_SOZDEM_EINZELKIND ) & !is.na( focus$C_SOZDEM_EINKOMMEN ), ] ) +
-    geom_boxplot( aes( C_SOZDEM_EINZELKIND, C_SOZDEM_EINKOMMEN ) )
+plot( Effect( "reli", lm.1 ) )
+plot( Effect( "C_SOZDEM_EIGZIMM", lm.1 ) )
 
-c.i <- confint( lm.1 )
-invlogit( c.i )
+exp( coef( lm.1 ) ) / ( 1 + exp( coef( lm.1 ) ) )
 
-plot( Effect( "C_SOZDEM_EINKOMMEN", lm.1 ) )
+exp( confint( lm.1 ) ) / ( 1 + exp( confint( lm.1 ) ) )
 
-
-t.t.1 <-
-    t.test( focus$C_SOZDEM_EINKOMMEN ~ focus$C_SOZDEM_EINZELKIND )
-
-t.t.1$conf.int
