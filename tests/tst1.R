@@ -57,9 +57,11 @@ focus$C_SOZDEM_EINZELKIND <-
 
 lm.1 <- glm(
     data = focus,
-    formula =  C_SOZDEM_EINZELKIND ~ C_SOZDEM_EINKOMMEN,
+    formula =  C_SOZDEM_EINZELKIND ~ C_SOZDEM_EINKOMMEN * C_SOZDEM_EIGZIMM,
     family = "binomial",
     na.action = na.omit )
+
+cdplot( C_SOZDEM_EINZELKIND ~ as.factor( C_SOZDEM_EINKOMMEN ), data =  focus )
 
 summary( lm.1 )
 
@@ -84,3 +86,7 @@ t.t.1 <-
     t.test( focus$C_SOZDEM_EINKOMMEN ~ focus$C_SOZDEM_EINZELKIND )
 
 t.t.1$conf.int
+
+
+ggplot( focus, aes( WINKLER_SCORE_FAM, C_SOZDEM_EIGZIMM ) ) +
+    geom_boxplot( )
