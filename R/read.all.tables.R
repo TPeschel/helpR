@@ -4,7 +4,7 @@ my <- new.env( )
 #'
 #' @param name name of table eg. D00100
 #'
-#' @return
+#' @return the requested table
 #' @export
 #'
 #' @examples get.tbl.by.name( "D00100" )
@@ -24,7 +24,7 @@ get.table.by.name <-
 #'
 #' @param index
 #'
-#' @return table
+#' @return the requested table
 #' @export
 #'
 #' @examples get.table.by.index( 2 )
@@ -57,17 +57,7 @@ read.all.tables <-
                     )
                 }
             )
-
         my$tables <- tmp
         my$names  <- unlist( sapply( my$tables, function( el ) el[[ 1 ]][ 1 ] ) )
         my$colums <- sapply( my$tables, function( el ) names( el[[ 2 ]] ) )
     }
-#
-# all.xlsx.tables.names <-
-#     function( all.tables )
-#         unlist( sapply( all.tables, function( el ) el[[ 1 ]][ 1 ] ) )
-#
-# all.xlsx.tables.row.names <-
-#     function( all.tables )
-#         sapply( all.tables, function( el ) names( el[[ 2 ]] ) )
-#

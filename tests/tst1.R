@@ -6,7 +6,7 @@ library( arm )
 library( effects )
 
 read.all.tables(
-    directory =  "~/LIFE/LIFE/myPostGraduates/WiebkeKeller/data/",
+    directory =  "~/LIFE/github-tpeschel/R/WiebkeKeller/data/",
     pattern = "*.xlsx" )
 
 my$names
@@ -16,6 +16,8 @@ my$tables
 my$names[ 1 ]
 my$tables[[ 1 ]]$name
 my$colums[ 1 ]
+
+my$tables[["D00078"]]
 
 my$names[ 6 ]
 my$tables[[ 6 ]]$name
