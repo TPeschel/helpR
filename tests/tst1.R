@@ -61,6 +61,9 @@ ggplot( focus ) +
 focus$C_SOZDEM_EINZELKIND <-
     as.factor( focus$C_SOZDEM_EINZELKIND )
 
+focus$C_SOZDEM_EIGZIMM <-
+    as.factor( focus$C_SOZDEM_EIGZIMM )
+
 focus$reli <- factor(
     focus$C_SOZDEM_KE_RELIGION, c( 1 : 6 ),
     c( "konfessionslos", "katholisch", "evangelisch", "christlich", "islamisch", "anders" ) )
@@ -78,7 +81,7 @@ cdplot( C_SOZDEM_EINZELKIND ~ C_SOZDEM_EIGZIMM, data =  focus )
 
 summary( lm.1 )
 
-plot( Effect( "reli", lm.1 ) )
+plot( allEffects( lm.1 ) )
 plot( Effect( "C_SOZDEM_EIGZIMM", lm.1 ) )
 
 invlogit( coef( lm.1 )[ 1 ] )
@@ -89,7 +92,7 @@ invlogit( coef( lm.1 )[ 1 ] + coef( lm.1 )[ 5 ] )
 invlogit( coef( lm.1 )[ 1 ] + coef( lm.1 )[ 6 ] )
 
 ## !!! this gives not the correct confidence interval
-invlogit( confint( lm.1 ) )
+exp( confint( lm.1 ) )
 
 ## but this does the job
 invlogit( confint( lm.1 )[ 1, ] )
